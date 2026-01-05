@@ -16,7 +16,6 @@ de GPIO, máquina de estados e integração hardware-software.
 ## 🎯 Objetivos
 
 - Implementar controle de GPIO em minicomputador
-- Demonstrar diferença entre sistemas com OS vs bare-metal
 - Integrar entrada digital (botão) e saídas digitais (LEDs)
 - Aplicar boas práticas de desenvolvimento embarcado
 
