@@ -3,7 +3,7 @@
 **Disciplina:** Sistemas Embarcados  
 **Instituição:** [Nome da Instituição]  
 **Data:** Janeiro 2026  
-**Equipe:** Suamí Gomes, Alexandre Kevin, Pedro Guilherme
+**Equipe:**
 
 ---
 
