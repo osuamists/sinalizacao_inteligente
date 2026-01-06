@@ -4,8 +4,9 @@
 ╔════════════════════════════════════════════════════════════╗
 ║  SEMINÁRIO 4 - SISTEMAS EMBARCADOS                         ║
 ║  Projeto: Sistema de Sinalização Inteligente               ║
-║  Equipe: Suamí, Alexandre, Pedro                           ║
+║                                                            ║
 ║  Hardware: Raspberry Pi 4 + GPIO                           ║
+║  ADAPTAÇÃO: Sistema com 3 LEDs (sem LED azul dedicado)     ║
 ╚════════════════════════════════════════════════════════════╝
 """
 
@@ -21,7 +22,6 @@ import sys
 LED_VERMELHO = 17  # Pino físico 11
 LED_AMARELO = 27   # Pino físico 13
 LED_VERDE = 22     # Pino físico 15
-LED_PEDESTRE = 25  # Pino físico 16 (azul)
 
 # Pino do botão de pedestre
 BOTAO = 24         # Pino físico 18
@@ -47,14 +47,13 @@ def inicializar_gpio():
     - pull_up_down: resistor interno de pull-down (evita leitura flutuante)
     """
     try:
-        GPIO.setmode(GPIO.BCM)  # Usar numeração BCM
-        GPIO.setwarnings(False)  # Desabilitar avisos de pinos já configurados
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
         
         # Configurar LEDs como saída
         GPIO.setup(LED_VERMELHO, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(LED_AMARELO, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(LED_VERDE, GPIO.OUT, initial=GPIO.LOW)
-        GPIO.setup(LED_PEDESTRE, GPIO.OUT, initial=GPIO.LOW)
         
         # Configurar botão como entrada com pull-down
         GPIO.setup(BOTAO, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -75,7 +74,6 @@ def desligar_todos_leds():
     GPIO.output(LED_VERMELHO, GPIO.LOW)
     GPIO.output(LED_AMARELO, GPIO.LOW)
     GPIO.output(LED_VERDE, GPIO.LOW)
-    GPIO.output(LED_PEDESTRE, GPIO.LOW)
 
 def acender_led(led, tempo):
     """
@@ -90,18 +88,18 @@ def acender_led(led, tempo):
     print(f"  → LED no GPIO {led} LIGADO por {tempo}s")
     time.sleep(tempo)
 
-def piscar_led_pedestre():
+def piscar_led_vermelho():
     """
-    Pisca LED azul 3 vezes para confirmar pedido do pedestre.
+    Pisca LED vermelho 3 vezes para confirmar pedido do pedestre.
     
-    Explicação: Feedback visual ao usuário indicando que
-    o sistema registrou a solicitação de travessia.
+    ADAPTAÇÃO: Reutiliza LED vermelho como indicador de pedestre
+    devido a limitações de alimentação do sistema.
     """
     print("  → Pedido de travessia registrado!")
     for i in range(3):
-        GPIO.output(LED_PEDESTRE, GPIO.HIGH)
+        GPIO.output(LED_VERMELHO, GPIO.HIGH)
         time.sleep(0.3)
-        GPIO.output(LED_PEDESTRE, GPIO.LOW)
+        GPIO.output(LED_VERMELHO, GPIO.LOW)
         time.sleep(0.3)
 
 # ═════════════════════════════════════════════════════════════
@@ -123,18 +121,21 @@ def ciclo_semaforo_pedestre():
     """
     Executa ciclo especial quando pedestre solicita travessia.
     
-    Diferença: Tempo de vermelho é estendido para permitir
-    travessia segura do pedestre.
+    Diferença: 
+    - LED vermelho pisca 3x antes do ciclo (indicador de pedestre)
+    - Tempo de vermelho é estendido para permitir travessia segura
     """
     print("\n[CICLO PEDESTRE]")
-    piscar_led_pedestre()
+    piscar_led_vermelho()
     acender_led(LED_VERDE, TEMPO_VERDE)
     acender_led(LED_AMARELO, TEMPO_AMARELO)
-    acender_led(LED_VERMELHO, TEMPO_VERMELHO_PEDESTRE)
-    GPIO.output(LED_PEDESTRE, GPIO.HIGH)  # Mantém LED azul aceso
+    
+    # Vermelho fica mais tempo para pedestre atravessar
+    desligar_todos_leds()
+    GPIO.output(LED_VERMELHO, GPIO.HIGH)
+    print(f"  → LED no GPIO {LED_VERMELHO} LIGADO por {TEMPO_VERMELHO_PEDESTRE}s")
     print("  → Pedestre pode atravessar!")
     time.sleep(TEMPO_VERMELHO_PEDESTRE)
-    GPIO.output(LED_PEDESTRE, GPIO.LOW)
 
 # ═════════════════════════════════════════════════════════════
 # LOOP PRINCIPAL
@@ -156,6 +157,7 @@ def main():
     print("\n" + "═"*60)
     print("   SISTEMA DE SINALIZAÇÃO INTELIGENTE")
     print("   Raspberry Pi 4 - Linux Embarcado")
+    print("   ADAPTAÇÃO: 3 LEDs (Vermelho reutilizado)")
     print("═"*60)
     
     # Inicializar hardware
@@ -174,15 +176,12 @@ def main():
                 ciclo_semaforo_normal()
                 
     except KeyboardInterrupt:
-        # Tratamento de interrupção pelo usuário
         print("\n\n[INFO] Sistema encerrado pelo usuário")
         
     except Exception as e:
-        # Tratamento de erros inesperados
         print(f"\n[ERRO] Falha no sistema: {e}")
         
     finally:
-        # Limpeza obrigatória do GPIO
         desligar_todos_leds()
         GPIO.cleanup()
         print("[OK] GPIO liberado. Sistema desligado com segurança.\n")
