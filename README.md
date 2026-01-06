@@ -27,8 +27,7 @@ de GPIO, máquina de estados e integração hardware-software.
 | LED Vermelho | 1 | 5mm, 2V @ 20mA |
 | LED Amarelo | 1 | 5mm, 2V @ 20mA |
 | LED Verde | 1 | 5mm, 2V @ 20mA |
-| LED Azul | 1 | 5mm, 3.2V @ 20mA |
-| Resistor 330Ω | 4 | 1/4W, 5% tolerância |
+| Resistor 150Ω | 3 | 1/4W, 5% tolerância |
 | Resistor 10kΩ | 1 | 1/4W, 5% tolerância |
 | Push Button | 1 | Normalmente aberto |
 | Protoboard | 1 | 830 pontos |
@@ -36,11 +35,10 @@ de GPIO, máquina de estados e integração hardware-software.
 
 ## 📐 Pinagem GPIO
 
-- **GPIO 17 (pino 11)** → LED Vermelho
-- **GPIO 27 (pino 13)** → LED Amarelo
-- **GPIO 22 (pino 15)** → LED Verde
-- **GPIO 23 (pino 16)** → LED Azul (Pedestre)
-- **GPIO 24 (pino 18)** → Botão (com pull-down 10kΩ)
+- **GPIO 17 (pino 11)** → LED Vermelho (com resistor 150Ω)
+- **GPIO 27 (pino 13)** → LED Amarelo (com resistor 150Ω)
+- **GPIO 22 (pino 15)** → LED Verde (com resistor 150Ω)
+- **GPIO 24 (pino 18)** → Botão
 
 ## 🚀 Como Executar
 
@@ -71,10 +69,9 @@ Pressione `Ctrl+C` no terminal.
 - Loop contínuo
 
 ### Modo Pedestre (Botão pressionado)
-1. LED azul pisca 3x (confirmação)
-2. Sistema completa ciclo atual
-3. Vermelho permanece 8 segundos (tempo de travessia)
-4. Retorna ao modo normal
+1. LED vermelho pisca ao detectar pressionamento
+2. Botão responsivo aos comandos do usuário
+3. Sistema integrado com detecção de botão
 
 ## 📁 Estrutura do Repositório
 
@@ -87,12 +84,12 @@ Pressione `Ctrl+C` no terminal.
 
 ## 🧪 Testes Realizados
 
-- [x] Teste individual de cada LED
+- [x] Teste individual de cada LED (Vermelho, Amarelo, Verde)
 - [x] Teste de leitura do botão
-- [x] Ciclo automático (20 iterações)
-- [x] Ciclo com pedestre (10 testes)
+- [x] Detecção de pressionamento do botão
+- [x] LED vermelho piscando ao pressionar botão
+- [x] Resistores de 150Ω em todos os LEDs
 - [x] Teste de interrupção (Ctrl+C)
-- [x] Teste de reboot do sistema
 
 ## 📚 Referências
 

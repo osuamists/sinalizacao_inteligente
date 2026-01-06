@@ -6,7 +6,6 @@
 ║  Projeto: Sistema de Sinalização Inteligente               ║
 ║                                                            ║
 ║  Hardware: Raspberry Pi 4 + GPIO                           ║
-║  ADAPTAÇÃO: Sistema com 3 LEDs (sem LED azul dedicado)     ║
 ╚════════════════════════════════════════════════════════════╝
 """
 
