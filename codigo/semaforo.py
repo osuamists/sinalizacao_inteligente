@@ -21,7 +21,7 @@ import sys
 LED_VERMELHO = 17  # Pino físico 11
 LED_AMARELO = 27   # Pino físico 13
 LED_VERDE = 22     # Pino físico 15
-LED_PEDESTRE = 23  # Pino físico 16 (azul)
+LED_PEDESTRE = 25  # Pino físico 16 (azul)
 
 # Pino do botão de pedestre
 BOTAO = 24         # Pino físico 18
