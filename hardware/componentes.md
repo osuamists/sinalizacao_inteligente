@@ -7,18 +7,17 @@
 | LED 5mm | Vermelho | 2.0V | 20mA | 1 |
 | LED 5mm | Amarelo | 2.1V | 20mA | 1 |
 | LED 5mm | Verde | 2.2V | 20mA | 1 |
-| LED 5mm | Azul | 3.2V | 20mA | 1 |
 
 ## Resistores
 
 | Valor | Código Cores | Potência | Tolerância | Quantidade |
 |-------|--------------|----------|------------|------------|
-| 330Ω | Laranja-Laranja-Marrom | 1/4W | 5% | 4 |
+| 150Ω | Marrom-Verde-Marrom | 1/4W | 5% | 3 |
 | 10kΩ | Marrom-Preto-Laranja | 1/4W | 5% | 1 |
 
 ## Outros Componentes
 
-- Push Button (4 pinos, normalmente aberto): 1
+- Push Button (2 pinos): 1
 - Protoboard 830 pontos: 1
 - Jumpers macho-fêmea: 10
 - Raspberry Pi 4 (4GB RAM): 1
